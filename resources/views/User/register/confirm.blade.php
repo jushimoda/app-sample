@@ -9,12 +9,13 @@
         <form method="POST">
             @csrf
             <label for="name">名前：</label>
-            {{$post['name']}}
+            {{$post['last_name']}} {{$post['first_name']}}
 
             <label for="birthday">生年月日：</label>
             {{$post['birthday']}}
 
-            <input type="hidden" name="name" value="{{$post['name']}}">
+            <input type="hidden" name="last_name" value="{{$post['last_name']}}">
+            <input type="hidden" name="first_name" value="{{$post['first_name']}}">
             <input type="hidden" name="birthday" value="{{$post['birthday']}}">
 
             <input type="submit" formaction="/user/register/execute" value="登録">

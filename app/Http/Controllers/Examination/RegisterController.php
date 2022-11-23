@@ -3,23 +3,49 @@
 namespace App\Http\Controllers\Examination;
 
 use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\Examination;
 
 class RegisterController extends BaseController
 {
     /**
-     * 受診記録登録入力画面
+     * Examination Model
+     * @var Examination
+     */
+    protected $examinationModel;
+
+    /**
+     * Request
+     * @var Request
+     */
+    protected $request;
+    
+    /**
+     * 新しいコントローラインスタンスの生成
      * 
      * @param Request $request
+     * @param \App\Models\Examination  $examination
+     * @return void
      */
-    public function input(Request $request, $userid)
+    public function __construct(Request $request, Examination $examination)
+    {
+        $this->request = $request;
+        $this->examinationModel = $examination;
+
+    }
+
+    /**
+     * 受診記録登録入力画面
+     * 
+     * @param string $userid 受診記録を登録するユーザーID
+     */
+    public function input($userid)
     {
         // 入力値を取得
         $params['post'] = [
-            'examination_date' => $request->input('examination_date', ''),
-            'course' => $request->input('course', ''),
-            'place' => $request->input('place', ''),
+            'examination_date' => $this->request->input('examination_date', ''),
+            'course' => $this->request->input('course', ''),
+            'place' => $this->request->input('place', ''),
             'userid' => $userid,
         ];
 
@@ -29,15 +55,15 @@ class RegisterController extends BaseController
     /**
      * 受診記録登録確認画面
      * 
-     * @param Request $request
+     * @param string $userid 受診記録を登録するユーザーID
      */
-    public function confirm(Request $request, $userid)
+    public function confirm($userid)
     {
         // 入力値を取得
         $params['post'] = [
-            'examination_date' => $request->input('examination_date', ''),
-            'course' => $request->input('course', ''),
-            'place' => $request->input('place', ''),
+            'examination_date' => $this->request->input('examination_date', ''),
+            'course' => $this->request->input('course', ''),
+            'place' => $this->request->input('place', ''),
             'userid' => $userid,
         ];
 
@@ -47,39 +73,29 @@ class RegisterController extends BaseController
     /**
      * 受診記録登録確定
      * 
-     * @param Request $request
+     * @param string $userid 受診記録を登録するユーザーID
      */
-    public function execute(Request $request, $userid)
+    public function execute($userid)
     {
-        // 入力値を取得
-        $params['post'] = [
-            'examination_date' => $request->input('examination_date', ''),
-            'course' => $request->input('course', ''),
-            'place' => $request->input('place', ''),
-            'userid' => $userid,
-        ];
+        // 年度の取得
+        $year = (new \DateTime($this->request->input('examination_date')))->modify('-3 month')->format('Y');
 
-        // 現在日時の取得
-        $now = (new \DateTime())->format('Y-m-d H:i:s');
+        // データの新規登録
+        $this->examinationModel->user_id = $userid;
+        $this->examinationModel->course = $this->request->input('course');
+        $this->examinationModel->year = $year;
+        $this->examinationModel->examination_date = $this->request->input('examination_date');
+        $this->examinationModel->place = $this->request->input('place');
 
-        DB::table('examination')->insert([
-            'user_id' => $userid,
-            'course' => $request->input('course', ''),
-            'examination_date' => $request->input('examination_date', ''),
-            'place' => $request->input('place', ''),
-            'update_time' => $now,
-            'create_time' => $now,
-        ]);
+        $this->examinationModel->save();
 
         return redirect()->route('examination.register.complete');
     }
 
     /**
      * 受診記録登録完了画面
-     * 
-     * @param Request $request
      */
-    public function complete(Request $request)
+    public function complete()
     {
         return view('examination/register/complete');
     }

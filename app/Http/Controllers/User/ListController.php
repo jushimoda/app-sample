@@ -5,29 +5,43 @@ namespace App\Http\Controllers\User;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\Userinfo;
 
 class ListController extends BaseController
 {
     /**
-     * ユーザー一覧画面
+     * Userinfo Model
+     * @var Userinfo
+     */
+    protected $userinfoModel;
+    
+    /**
+     * Request
+     * @var Request
+     */
+    protected $request;
+
+    /**
+     * 新しいコントローラインスタンスの生成
      * 
      * @param Request $request
+     * @param  \App\Models\Userinfo  $userinfo
+     * @return void
      */
-    public function index(Request $request)
+    public function __construct(Request $request, Userinfo $userinfo)
     {
-        $subexamination = DB::table('examination')
-                            ->select('user_id', DB::raw('count(*) AS cnt'))
-                            ->whereNull('delete_time')
-                            ->groupBy('user_id');
+        $this->request = $request;
+        $this->userinfoModel = $userinfo;
+    }
 
+    /**
+     * ユーザー一覧画面
+     * 
+     */
+    public function index()
+    {   
         // ユーザー情報一覧を取得
-        $params['userinfos'] = DB::table('userinfo')
-                                ->select('id', 'name', DB::raw("TIMESTAMPDIFF(YEAR, birthday, DATE_FORMAT(ADDDATE(CURDATE(), 275), '%Y-03-31')) as age"), 'cnt')
-                                ->leftJoinSub($subexamination, 'examination', function ($join) {
-                                    $join->on('userinfo.id', '=', 'examination.user_id');
-                                })
-                                ->whereNull('delete_time')
-                                ->get();
+        $params['userinfos'] = $this->userinfoModel->list()->get();
 
         return view('user/list', $params);
     }

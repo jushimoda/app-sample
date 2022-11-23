@@ -12,7 +12,8 @@
             {{$post['examination_date']}}
 
             <label for="course">受診コース：</label>
-            {{$post['course']}}
+            @if ($post['course'] === '1') 1日人間ドック @endif
+            @if ($post['course'] === '2') 基本検診 @endif
 
             <label for="place">受診場所：</label>
             {{$post['place']}}

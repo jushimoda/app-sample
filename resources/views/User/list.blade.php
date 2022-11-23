@@ -22,7 +22,7 @@
                 @foreach($userinfos as $userinfo)
                 <tr>
                     <td><a href="/user/detail/{{$userinfo->id}}">{{$userinfo->id}}</a></td>
-                    <td>{{$userinfo->name}}</td>
+                    <td>{{$userinfo->last_name}} {{$userinfo->first_name}}</td>
                     <td>{{$userinfo->age}}</td>
                     <td>@if ($userinfo->age >= 35) 1日人間ドック @else 基本健診 @endif</td>
                     <td>@if (is_null($userinfo->cnt)) 0 @else {{$userinfo->cnt}} @endif</td>

@@ -12,7 +12,11 @@
             <input type="date" id="examination_date" name="examination_date" value="{{$post['examination_date']}}" required>
 
             <label for="course">受診コース：</label>
-            <input type="text" id="course" name="course" value="{{$post['course']}}" required>
+            <select id="course" name="course" required>
+                <option value="">選択してください</option>
+                <option value="1" @if ($post['course'] === '1') selected @endif>1日人間ドック</option>
+                <option value="2" @if ($post['course'] === '2') selected @endif>基本検診</option>
+            </select>
 
             <label for="place">受診場所：</label>
             <textarea id="place" name="place">{{$post['place']}}</textarea>

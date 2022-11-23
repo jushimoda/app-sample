@@ -7,7 +7,9 @@
         <h3>受診記録一覧</h3>
 
         <select>
-            <option>aaa</option>
+            @foreach($yearlist as $year)
+            <option @if ($year->year === $targetyear) selected @endif >{{$year->year}}</option>
+            @endforeach
         </select>
 
         <table>
@@ -23,8 +25,11 @@
                 @foreach($examinations as $examination)
                 <tr>
                     <td>{{$examination->examination_date}}</td>
-                    <td><a href="/user/detail/{{$examination->user_id}}">{{$examination->name}}</a></td>
-                    <td>{{$examination->course}}</td>
+                    <td><a href="/user/detail/{{$examination->user_id}}">{{$examination->last_name}} {{$examination->first_name}}</a></td>
+                    <td>
+                        @if ($examination->course === 1) 1日人間ドック @endif
+                        @if ($examination->course === 2) 基本検診 @endif
+                    </td>
                     <td>{{$examination->place}}</td>
                 </tr>
                 @endforeach

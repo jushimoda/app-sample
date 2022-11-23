@@ -3,37 +3,55 @@
 namespace App\Http\Controllers\Examination;
 
 use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\Examination;
 
 class ListController extends BaseController
 {
     /**
-     * 受診記録一覧画面
+     * Examination Model
+     * @var Examination
+     */
+    protected $examinationModel;
+
+    /**
+     * Request
+     * @var Request
+     */
+    protected $request;
+    
+    /**
+     * 新しいコントローラインスタンスの生成
      * 
      * @param Request $request
+     * @param  \App\Models\Examination  $examination
+     * @return void
      */
-    public function index(Request $request)
+    public function __construct(Request $request, Examination $examination)
+    {
+        $this->request = $request;
+        $this->examinationModel = $examination;
+    }
+
+    /**
+     * 受診記録一覧画面
+     */
+    public function index()
     {
         // 年度が指定されていなければ今年度のデータが対象
-        $year = $request->input('year', (new \DateTime('-3 month'))->format('Y'));
+        $year = $this->request->input('year', (new \DateTime('-3 month'))->format('Y'));
 
+        // 年度一覧を取得
+        $params['yearlist'] = $this->examinationModel->yearList()->get()->toArray();
+
+        // 対象年度をアサイン
         $params['targetyear'] = $year;
 
         // 年度のリストを取得
-        $params['yearlist'] = DB::table('examination')
-                                ->select(DB::raw("DISTINCT DATE_FORMAT(DATE_SUB(examination_date, INTERVAL 3 MONTH),'%Y') AS year"))
-                                ->whereNull('delete_time')
-                                ->orderBy('year', 'desc')
-                                ->get();
+        $params['yearlist'] = $this->examinationModel->yearList()->get();
 
         // 年度を元に受診記録一覧取得
-        $params['examinations'] = DB::table('examination')
-                            ->select('user_id', 'course', 'examination_date', 'place', 'userinfo.name')
-                            ->leftJoin('userinfo', 'examination.user_id', '=', 'userinfo.id')
-                            ->whereNull('examination.delete_time')
-                            ->where(DB::raw("DATE_FORMAT(DATE_SUB(examination.examination_date, INTERVAL 3 MONTH),'%Y')"), '=', $year)
-                            ->get();
+        $params['examinations'] = $this->examinationModel->byYear($year)->get();
 
         return view('examination/list', $params);
     }

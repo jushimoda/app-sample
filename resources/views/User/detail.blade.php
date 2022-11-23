@@ -21,7 +21,7 @@
             <tbody>
                 <tr>
                     <td>{{$userinfo->id}}</td>
-                    <td>{{$userinfo->name}}</td>
+                    <td>{{$userinfo->last_name}} {{$userinfo->first_name}}</td>
                     <td>{{$userinfo->birthday}}</td>
                     <td>{{$userinfo->age}}</td>
                     <td>@if ($userinfo->age >= 35) 1日人間ドック @else 基本健診 @endif</td>
@@ -45,7 +45,10 @@
                 <tr>
                     <td>{{$examination->year}}</td>
                     <td>{{$examination->examination_date}}</td>
-                    <td>{{$examination->course}}</td>
+                    <td>
+                        @if ($examination->course === 1) 1日人間ドック @endif
+                        @if ($examination->course === 2) 基本検診 @endif
+                    </td>
                     <td>{{$examination->place}}</td>
                 </tr>
                 @endforeach
