@@ -34,7 +34,7 @@
 
                 <li>
                     <label for="place">受診場所：</label>
-                    <input type="text" id="place" name="place" value="{{old('place', $post['place'])}}" required>
+                    <input type="text" id="place" name="place" value="{{old('place', $post['place'])}}">
                 </li>
 
                 <div class="submit">
