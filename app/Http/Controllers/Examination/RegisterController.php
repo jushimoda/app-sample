@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Examination;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use App\Models\Examination;
+use App\Models\Userinfo;
+use App\Rules\Year;
 
 class RegisterController extends BaseController
 {
@@ -13,6 +15,12 @@ class RegisterController extends BaseController
      * @var Examination
      */
     protected $examinationModel;
+
+    /**
+     * Userinfo Model
+     * @var Userinfo
+     */
+    protected $userinfoModel;
 
     /**
      * Request
@@ -25,13 +33,14 @@ class RegisterController extends BaseController
      * 
      * @param Request $request
      * @param \App\Models\Examination  $examination
+     * @param  \App\Models\Userinfo  $userinfo
      * @return void
      */
-    public function __construct(Request $request, Examination $examination)
+    public function __construct(Request $request, Examination $examination, Userinfo $userinfo)
     {
         $this->request = $request;
         $this->examinationModel = $examination;
-
+        $this->userinfoModel = $userinfo;
     }
 
     /**
@@ -49,6 +58,9 @@ class RegisterController extends BaseController
             'userid' => $userid,
         ];
 
+        // 指定されたユーザー情報を1件取得
+        $params['userinfo'] = $this->userinfoModel->byUserid($userid)->first();
+
         return view('examination/register/input', $params);
     }
 
@@ -59,11 +71,17 @@ class RegisterController extends BaseController
      */
     public function confirm($userid)
     {
+
+        // 同ユーザー、同年度の登録はNG
+        $this->request->validate([
+            'examination_date' => ['required', new Year($userid)],
+        ]);
+
         // 入力値を取得
         $params['post'] = [
-            'examination_date' => $this->request->input('examination_date', ''),
-            'course' => $this->request->input('course', ''),
-            'place' => $this->request->input('place', ''),
+            'examination_date' => $this->request->input('examination_date'),
+            'course' => $this->request->input('course'),
+            'place' => $this->request->input('place'),
             'userid' => $userid,
         ];
 

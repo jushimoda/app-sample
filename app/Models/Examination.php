@@ -57,4 +57,24 @@ class Examination extends Model
         return $this->whereNull('delete_time')
                     ->where('user_id', '=', $userid);
     }
+
+    /**
+     * 受診日とユーザーIDを条件に同年度のデータがあるかチェック
+     * 
+     * @param string $examinationdate 受診日
+     * @param int $userid ユーザーID
+     * @retutn Illuminate\Database\Eloquent\Collection
+     */
+    public function validateYear($examinationdate, $userid)
+    {
+        // 年度の取得
+        $year = (new \DateTime($examinationdate))->modify('-3 month')->format('Y');
+        
+        $count = $this->whereNull('delete_time')
+                ->where('user_id', '=', $userid)
+                ->where('year', '=', $year)
+                ->count();
+
+        return $count === 0;
+    }
 }
