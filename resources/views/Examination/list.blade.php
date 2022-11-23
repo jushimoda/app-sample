@@ -4,11 +4,22 @@
 
 @section('content')
 
+<script>
+$(function () {
+    // プルダウン変更時に遷移
+    $('select[name=year]').change(function() {
+        if ($(this).val() != '') {
+            window.location.href = $(this).val();
+        }
+    });
+});
+</script>
+
         <h3>受診記録一覧</h3>
 
-        <select>
+        <select id="year" name="year">
             @foreach($yearlist as $year)
-            <option @if ($year->year === $targetyear) selected @endif >{{$year->year}}</option>
+            <option value="./{{$year->year}}" @if ($year->year == $targetyear) selected @endif >{{$year->year}}</option>
             @endforeach
         </select>
 

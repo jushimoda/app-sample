@@ -29,6 +29,7 @@ class Examination extends Model
     {
         return $this->select('year')
                     ->whereNull('delete_time')
+                    ->groupBy('year')
                     ->orderBy('year', 'desc');
     }
 

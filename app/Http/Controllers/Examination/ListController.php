@@ -36,10 +36,12 @@ class ListController extends BaseController
     /**
      * 受診記録一覧画面
      */
-    public function index()
+    public function index($year = null)
     {
         // 年度が指定されていなければ今年度のデータが対象
-        $year = $this->request->input('year', (new \DateTime('-3 month'))->format('Y'));
+        if(is_null($year)){
+            $year = $this->request->input('year', (new \DateTime('-3 month'))->format('Y'));
+        }
 
         // 年度一覧を取得
         $params['yearlist'] = $this->examinationModel->yearList()->get()->toArray();

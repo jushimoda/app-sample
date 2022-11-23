@@ -27,6 +27,7 @@ Route::post('/user/register/execute', [User\RegisterController::class, 'execute'
 Route::get('/user/register/complete', [User\RegisterController::class, 'complete'])->name('user.register.complete');
 
 Route::get('/examination/list/', [Examination\ListController::class, 'index'])->name('examination.list');
+Route::get('/examination/list/{year}', [Examination\ListController::class, 'index'])->name('examination.list');
 Route::match(['get', 'post'], '/examination/register/{userid}/input', [Examination\RegisterController::class, 'input'])->name('examination.register.input');
 Route::post('/examination/register/{userid}/confirm', [Examination\RegisterController::class, 'confirm'])->name('examination.register.confirm');
 Route::post('/examination/register/{userid}/execute', [Examination\RegisterController::class, 'execute'])->name('examination.register.execute');
