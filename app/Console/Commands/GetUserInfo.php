@@ -36,7 +36,12 @@ class GetUserInfo extends Command
 
         // 指定されたユーザー情報を1件取得
         $data = $userinfo->byUserid($userid)->first();
-        
+
+        if(is_null($data)){
+            print '指定したユーザーはいません'.PHP_EOL;
+            return Command::FAILURE;
+        }
+
         // 受診コースを判別
         $course = ($data->age >= 35) ? '1日人間ドック' : '基本健診';
 
