@@ -1,0 +1,93 @@
+.design04 {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.design04 tr:nth-child(2n+1) {
+    background: #e9faf9;
+}
+.design04 th {
+    padding: 10px;
+    background: #778ca3;
+    border-right: solid 1px #778ca3;
+    color: #ffffff;
+}
+.design04 th:last-child {
+    border-right: none;
+}
+.design04 td {
+    padding: 10px;
+    border-right: solid 1px #778ca3; 
+}
+.design04 td:last-child {
+    border-right: none;
+}
+
+h3 {
+    padding: 0.4em 0.5em;/*文字の上下 左右の余白*/
+    color: #494949;/*文字色*/
+    background: #f4f4f4;/*背景色*/
+    border-left: solid 5px #7db4e6;/*左線*/
+    border-bottom: solid 3px #d7d7d7;/*下線*/
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+
+.custom-select {
+  border-radius: 5px;
+  border: solid 1px #999999;
+  box-sizing: border-box;
+}
+select {
+  border-radius: 5px;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  /* width: 100%; */
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+  background: #fff
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2211%22%20height%3D%2211%22%20viewBox%3D%220%200%2011%2011%22%3E%3Cpath%20d%3D%22M4.33%208.5L0%201L8.66%201z%22%20fill%3D%22%23666%22%2F%3E%3C%2Fsvg%3E")
+    right 10px center no-repeat;
+  padding: 12px 35px 12px 11px;
+  color: #000;
+
+  /* Firefox hide arrow */
+  -moz-appearance: none;
+  text-indent: 0.01px;
+  text-overflow: "";
+}
+/* IE10 hide arrow */
+select::-ms-expand {
+  display: none;
+}
+
+ul li {
+  list-style: none;
+  margin-top: 10px;
+}
+label {
+  margin-right: 1.5em;
+  width:100px;
+  float: left;
+}
+
+ul {
+  width: 500px;
+  margin: 0 auto;
+}
+
+input#confirm {
+  display: block;
+  margin: 0 auto;
+}
+
+
+div.submit{
+  margin-top: 20px;
+  text-align: center;
+}
+
+

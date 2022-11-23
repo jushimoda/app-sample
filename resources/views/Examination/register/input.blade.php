@@ -18,18 +18,28 @@
 
         <form method="POST">
             @csrf
-            <label for="examination_date">受診日：</label>
-            <input type="date" id="examination_date" name="examination_date" value="{{old('examination_date', $post['examination_date'])}}" required>
+            <ul>
+                <li>
+                    <label for="examination_date">受診日：</label>
+                    <input type="date" id="examination_date" name="examination_date" value="{{old('examination_date', $post['examination_date'])}}" required>
+                </li>
 
-            <label for="course">受診コース：</label>
-            <select id="course" name="course" required>
-                <option value="1" @if (old('course', $post['course']) === '1' or (old('course', $post['course']) === '' and $userinfo->age >= 35)) selected @endif>1日人間ドック</option>
-                <option value="2" @if (old('course', $post['course']) === '2' or (old('course', $post['course']) === '' and $userinfo->age < 35)) selected @endif>基本検診</option>
-            </select>
+                <li>
+                    <label for="course">受診コース：</label>
+                    <select id="course" name="course" required>
+                        <option value="1" @if (old('course', $post['course']) === '1' or (old('course', $post['course']) === '' and $userinfo->age >= 35)) selected @endif>1日人間ドック</option>
+                        <option value="2" @if (old('course', $post['course']) === '2' or (old('course', $post['course']) === '' and $userinfo->age < 35)) selected @endif>基本検診</option>
+                    </select>
+                </li>
 
-            <label for="place">受診場所：</label>
-            <textarea id="place" name="place">{{old('place', $post['place'])}}</textarea>
+                <li>
+                    <label for="place">受診場所：</label>
+                    <input type="text" id="place" name="place" value="{{old('place', $post['place'])}}" required>
+                </li>
 
-            <input type="submit" formaction="/examination/register/{{$post['userid']}}/confirm" value="確認">
+                <div class="submit">
+                    <input class="button" type="submit" id="confirm" formaction="/examination/register/{{$post['userid']}}/confirm" value="確認">
+                </div>
+            </ul>
         </form>
 @endsection

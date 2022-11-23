@@ -9,6 +9,6 @@
         <p>登録が完了しました</p>
 
         <form method="GET">
-            <input type="submit" formaction="/user/list" value="一覧に戻る">
+            <input class="button" type="submit" formaction="/user/list" value="一覧に戻る">
         </form>
 @endsection

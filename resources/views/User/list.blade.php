@@ -8,7 +8,7 @@
 
         <a href="/user/register/input">新規登録</a>
 
-        <table>
+        <table class="design04">
             <thead>
                 <tr>
                     <th>ユーザーID</td>

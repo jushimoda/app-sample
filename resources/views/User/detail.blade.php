@@ -8,7 +8,7 @@
 
         <a href="/examination/register/{{$userinfo->id}}/input">受診記録新規登録</a>
 
-        <table>
+        <table class="design04">
             <thead>
                 <tr>
                     <th>ユーザーID</td>
@@ -31,7 +31,7 @@
 
         <h3>受診記録一覧</h3>
 
-        <table>
+        <table class="design04">
             <thead>
                 <tr>
                     <th>受診年度</td>

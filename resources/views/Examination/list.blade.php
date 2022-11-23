@@ -23,7 +23,7 @@ $(function () {
             @endforeach
         </select>
 
-        <table>
+        <table class="design04">
             <thead>
                 <tr>
                     <th>受診日</td>
